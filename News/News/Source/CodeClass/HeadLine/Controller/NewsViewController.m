@@ -17,9 +17,14 @@
 
 
 
-@property(nonatomic,strong)UIView *BackView;
+@property(nonatomic,strong)UIScrollView *BackView;
 @property (nonatomic, strong) NSArray *titles;
 @property (nonatomic, strong) LGtitleBarView *titleBar;
+
+
+@property (nonatomic,strong)HeadLineTableViewController *head ;
+@property (nonatomic,strong)PETableViewController *pe;
+
 
 @end
 
@@ -43,41 +48,31 @@
     
    
     
-    self.BackView = [[UIView alloc]init];
+    self.BackView = [[UIScrollView alloc]init];
     self.BackView.frame = CGRectMake(0, 44, kScreenWidth, kScreenHight);
+    self.BackView.contentSize = CGSizeMake(kScreenWidth *5, kScreenHight);
     self.BackView.backgroundColor = [UIColor blueColor];
     [self.view addSubview:_BackView];
     
     
-    // 设置页面初始显示内容
-    HeadLineTableViewController *head = [[HeadLineTableViewController alloc]init];
-    head.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
-    [self addChildViewController:head];
-    [self.BackView addSubview:head.tableView];
+
+    self.head = [[HeadLineTableViewController alloc]init];
+    self.head.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+    [self addChildViewController:_head];
+    [self.BackView addSubview:_head.tableView];
     
-    
+    self.pe = [[PETableViewController alloc]init];
+    self.pe.view.frame = CGRectMake(CGRectGetMaxX(self.view.frame), 0, self.view.frame.size.width, self.view.frame.size.height);
+    [self addChildViewController:_pe];
+    [self.BackView addSubview:_pe.tableView];
     
 }
 
 -(void)LGtitleBarView:(LGtitleBarView *)titleBarView didSelectedItem:(int)index
 {
-    if (index == 0)
-    {
-        HeadLineTableViewController *head = [[HeadLineTableViewController alloc]init];
-          head.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
-        [self addChildViewController:head];
-        [self.BackView addSubview:head.tableView];
 
-       
-    }   
-    if (index == 1)
-    {
-        PETableViewController *pe = [[PETableViewController alloc]init];
-        pe.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
-        [self addChildViewController:pe];
-        [self.BackView addSubview:pe.tableView];
-       
-    }
+    CGFloat x = index * self.BackView.bounds.size.width;
+    [self.BackView setContentOffset:CGPointMake(x, 0) animated:YES];
 
 }
 
