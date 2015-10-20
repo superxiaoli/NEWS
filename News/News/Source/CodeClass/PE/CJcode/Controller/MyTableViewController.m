@@ -48,7 +48,7 @@
     
     
     
-    // 头部滑动图片新闻
+    // 头部滑动图片新闻ffffffffffffffff
     self.headView = [[CjHeadView alloc]initWithFrame:CGRectMake(0, 0,CGRectGetWidth(self.view.frame),210)];
 
 
