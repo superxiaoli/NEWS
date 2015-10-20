@@ -167,7 +167,7 @@
 
 -(void)setUpUI
 {
-    // 定义一个view 用来放轮播图
+    // 定义一个view 用来放轮播图00000
     self.view1 = [[UIView alloc]initWithFrame:CGRectMake(0, 50, CGRectGetWidth(self.view.frame) , 180)];
     //view1.backgroundColor = [UIColor redColor];
     //self.edgesForExtendedLayout = UIRectEdgeNone;
