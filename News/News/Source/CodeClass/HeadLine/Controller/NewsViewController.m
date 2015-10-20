@@ -70,6 +70,7 @@
 
 -(void)LGtitleBarView:(LGtitleBarView *)titleBarView didSelectedItem:(int)index
 {
+    
 
     CGFloat x = index * self.BackView.bounds.size.width;
     [self.BackView setContentOffset:CGPointMake(x, 0) animated:YES];

@@ -25,7 +25,7 @@
 @property (nonatomic,strong)NSTimer *timer;
 @property (nonatomic,strong)UIImageView *image1;
 
-
+@property (nonatomic,strong) UIView *view1;
 
 @end
 
@@ -146,6 +146,10 @@
     HeadLine *h = self.array[indexPath.row];
     if ([h.digest isEqualToString:@""])
     {
+//        NSString *s = @"http://c.3g.163.com/photo/api/set/0096/79595.json";
+//        NSString *s1 = [h.ads[indexPath.row] objectForKey:@"url"];
+//        NSString *s2 = [s1 substringFromIndex:5];
+        
         //headVC.webStr =
     }
     else
@@ -164,7 +168,7 @@
 -(void)setUpUI
 {
     // 定义一个view 用来放轮播图
-    UIView *view1 = [[UIView alloc]initWithFrame:CGRectMake(0, 50, CGRectGetWidth(self.view.frame) , 180)];
+    self.view1 = [[UIView alloc]initWithFrame:CGRectMake(0, 50, CGRectGetWidth(self.view.frame) , 180)];
     //view1.backgroundColor = [UIColor redColor];
     //self.edgesForExtendedLayout = UIRectEdgeNone;
     // 轮播图的实现
@@ -174,7 +178,7 @@
     self.HeadScrollView.backgroundColor = [UIColor orangeColor];
     self.HeadScrollView.pagingEnabled = YES;//设置翻动时候在下一个停留
     self.HeadScrollView.delegate = self;
-    [view1 addSubview:_HeadScrollView];
+    [_view1 addSubview:_HeadScrollView];
     
     HeadLineAds *h = [[HeadLineAds alloc]init];
     
@@ -191,12 +195,6 @@
         //imageView.image = [UIImage imageNamed:@"12.png"];
         [imageView sd_setImageWithURL:[NSURL URLWithString:h.imgsrc]];
         [self.HeadScrollView addSubview:imageView];
-        
-        CGFloat LabkeX = CGRectGetWidth(self.HeadScrollView.frame) * i;
-        UILabel *lable = [[UILabel alloc]initWithFrame:CGRectMake(LabkeX, CGRectGetMaxY(self.HeadScrollView.frame), 275, 20)];
-        lable.text = h.title;
-        lable.backgroundColor = [UIColor orangeColor];
-        [imageView addSubview:lable];
     }
 
     self.HeadPage = [[UIPageControl alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.HeadScrollView.frame) - 100, CGRectGetMaxY(self.HeadScrollView.frame), 100, 20)];
@@ -208,10 +206,10 @@
     [self.HeadPage addTarget:self action:@selector(HeadPageAction:) forControlEvents:UIControlEventTouchUpInside];
     [self setupTimer];
     [self.view addSubview:_HeadPage];
-    [view1 addSubview:_HeadPage];
+    [_view1 addSubview:_HeadPage];
     
     
-    self.tableView.tableHeaderView = view1;
+    self.tableView.tableHeaderView = _view1;
     
 }
 
@@ -232,12 +230,17 @@
 {
     CGFloat x = (sender.currentPage) * self.HeadScrollView.bounds.size.width;
     [self.HeadScrollView setContentOffset:CGPointMake(x, 0) animated:YES];
+ 
     
+    // 根据sender的值将title加到Lable上
+    HeadLineAds *h = [[HeadLineAds alloc]init];
+     h = self.array1[sender.currentPage];
+    UILabel *lable = [[UILabel alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.HeadScrollView.frame), 275, 20)];
+    lable.text = h.title;
+    lable.font = [UIFont systemFontOfSize:14];
+    lable.backgroundColor = [UIColor orangeColor];
+    [_view1 addSubview:lable];
     
-    
-//    [UIView animateWithDuration:2 animations:^{ // 点击page 时scrollview滑动
-//        self.HeadScrollView.contentOffset = CGPointMake(self.view.frame.size.width * sender.currentPage, 0);
-//    }];
 }
 // 移动scrollview时候,让定时器停止
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView

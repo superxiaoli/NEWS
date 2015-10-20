@@ -18,6 +18,7 @@
 @property (nonatomic,strong)NSArray *arr2;
 @property (nonatomic,strong)NSArray *arr3;
 @property (nonatomic,strong)NSTimer *timer;
+@property (nonatomic,strong)UIView *view1;
 
 
 @end
@@ -50,8 +51,8 @@
 
 -(void)setUpScrPage
 {
-    UIView *view1 = [[UIView alloc]initWithFrame:CGRectMake(0, 50, CGRectGetWidth(self.view.frame) , 180)];
-    view1.backgroundColor = [UIColor redColor];
+    self.view1 = [[UIView alloc]initWithFrame:CGRectMake(0, 50, CGRectGetWidth(self.view.frame) , 180)];
+    _view1.backgroundColor = [UIColor redColor];
     //self.edgesForExtendedLayout = UIRectEdgeNone;
     // 轮播图的实现
     self.PeScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 160)];
@@ -68,27 +69,42 @@
 
     Pe2Model *Pm = self.arr2[0];
     [image1 sd_setImageWithURL:[NSURL URLWithString:Pm.imgsrc]];
+    PeModel *Pm2 = self.arr1[0];
+    [image2 sd_setImageWithURL:[NSURL URLWithString:Pm2.imgsrc]];
+    
     
     [self.PeScrollView addSubview:image2];
     [self.PeScrollView addSubview:image1];
-    [view1 addSubview:_PeScrollView];
+    [self.view1 addSubview:_PeScrollView];
     
     
     
     
-    self.PePageController = [[UIPageControl alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.PeScrollView.frame) - 100, 100, 20)];
+    self.PePageController = [[UIPageControl alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.PeScrollView.frame) - 100, CGRectGetMaxY(self.PeScrollView.frame), 100, 20)];
     self.PePageController.backgroundColor = [UIColor orangeColor];
     self.PePageController.numberOfPages = 2;
     self.PePageController.currentPage = 1;
+    self.PePageController.backgroundColor = [UIColor orangeColor];
     
     
     [self.PePageController addTarget:self action:@selector(HeadPageAction:) forControlEvents:UIControlEventTouchUpInside];
     [self setupTimer];
     [self.view addSubview:_PePageController];
-    [view1 addSubview:_PePageController];
+    [self.view1 addSubview:_PePageController];
     
     
-    self.tableView.tableHeaderView = view1;
+    UILabel *lable = [[UILabel alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.PeScrollView.frame), 275, 20)];
+    lable.text = Pm.title;
+    lable.font = [UIFont systemFontOfSize:14];
+    lable.backgroundColor = [UIColor orangeColor];
+    [_view1 addSubview:lable];
+
+    
+    
+    
+    
+    self.tableView.tableHeaderView = _view1;
+
 
 
 }
@@ -109,16 +125,31 @@
 {
     CGFloat x = (sender.currentPage) * self.PeScrollView.bounds.size.width;
     [self.PeScrollView setContentOffset:CGPointMake(x, 0) animated:YES];
+    UILabel *lable = [[UILabel alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.PeScrollView.frame), 275, 20)];
     
-    
-    //    [UIView animateWithDuration:2 animations:^{ // 点击page 时scrollview滑动
-    //        self.HeadScrollView.contentOffset = CGPointMake(self.view.frame.size.width * sender.currentPage, 0);
-    //    }];
+///// 实现轮播图小标题  //////
+    if (x == 0)
+    {
+         Pe2Model *Pm = self.arr2[0];
+        lable.text = Pm.title;
+        lable.font = [UIFont systemFontOfSize:14];
+        lable.backgroundColor = [UIColor orangeColor];
+        [_view1 addSubview:lable];
+    }
+    if (x == self.PeScrollView.bounds.size.width)
+    {
+         PeModel *Pm2 = self.arr1[0];
+        lable.text = Pm2.title;
+        lable.font = [UIFont systemFontOfSize:14];
+        lable.backgroundColor = [UIColor orangeColor];
+        [_view1 addSubview:lable];
+    }
 }
 // 移动scrollview时候,让定时器停止
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
     [self.timer invalidate];
+    
 }
 // 停止移动scrollview时候,让定时器开始
 -(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
@@ -177,7 +208,14 @@
     else
     {
         Pe1TableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell1" forIndexPath:indexPath];
-        cell.p1Model = self.arr1[indexPath.row];
+        if (indexPath.row == 0)
+        {
+            cell.p1Model = self.arr1[indexPath.row + 1];
+        }else
+        {
+            cell.p1Model = self.arr1[indexPath.row];
+        }
+        
         
         return cell;
         
