@@ -30,13 +30,13 @@
     
     
     
-    MyTableViewController *MyController = [[MyTableViewController alloc]init];
-    UINavigationController *MyVC = [[UINavigationController alloc]initWithRootViewController:MyController];
-    MyVC.tabBarItem = [[UITabBarItem alloc]initWithTitle:@"我的" image:nil selectedImage:nil];
+//    MyTableViewController *MyController = [[MyTableViewController alloc]init];
+//    UINavigationController *MyVC = [[UINavigationController alloc]initWithRootViewController:MyController];
+//    MyVC.tabBarItem = [[UITabBarItem alloc]initWithTitle:@"我的" image:nil selectedImage:nil];
     //MyController.tabBarItem = [[UITabBarItem alloc]initWithTitle:@"我的" image:nil selectedImage:nil];
     
     
-    self.viewControllers = @[NewVC,MyVC];
+    self.viewControllers = @[NewVC];
     //self.viewControllers = @[NewsController,MyController];
     
    

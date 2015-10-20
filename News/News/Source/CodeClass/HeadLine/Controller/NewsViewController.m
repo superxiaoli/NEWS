@@ -24,6 +24,7 @@
 
 @property (nonatomic,strong)HeadLineTableViewController *head ;
 @property (nonatomic,strong)PETableViewController *pe;
+@property(nonatomic,strong)MyTableViewController * mtvc;
 
 
 @end
@@ -40,7 +41,7 @@
     
     self.titleBar = [[LGtitleBarView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 40)];
     //self.titleBar.backgroundColor = [UIColor blackColor];
-    self.titles = @[@"今日头条", @"科技", @"体育", @"财经", @"娱乐", @"八卦", @"娱乐", @"八卦"];
+    self.titles = @[@"今日头条", @"科技", @"体育", @"财经", @"影视", @"汽车", @"娱乐", @"八卦"];
     
     self.titleBar.titles = _titles;
     self.titleBar.delegate = self;
@@ -70,14 +71,34 @@
     self.pe.view.frame = CGRectMake(CGRectGetMaxX(self.view.frame), 0, self.view.frame.size.width, self.view.frame.size.height);
     [self addChildViewController:_pe];
     [self.BackView addSubview:_pe.tableView];
+    
+    self.mtvc = [[MyTableViewController  alloc]init];
+    self.mtvc.view.frame = CGRectMake(self.view.frame.size.width*3, 0, self.view.frame.size.width, self.view.frame.size.height-155);
+    [self addChildViewController:self.mtvc];
+    [self.BackView addSubview:self.mtvc.view];
 }
 
 -(void)LGtitleBarView:(LGtitleBarView *)titleBarView didSelectedItem:(int)index
 {
     
-
-    CGFloat x = index * self.BackView.bounds.size.width;
-    [self.BackView setContentOffset:CGPointMake(x, 0) animated:YES];
+    switch (index) {
+        case 0:{
+             CGFloat x = index * self.BackView.bounds.size.width;
+            [self.BackView setContentOffset:CGPointMake(x, 0) animated:YES];
+            break;
+        }
+            case 3:
+        {
+            CGFloat cjx = index * self.BackView.bounds.size.width;
+            [self.BackView setContentOffset:CGPointMake(cjx, 0) animated:YES];
+            break;
+        }
+        default:
+            break;
+    }
+  
+    
+ 
 
 }
 
