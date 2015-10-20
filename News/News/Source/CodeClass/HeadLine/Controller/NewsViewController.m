@@ -25,7 +25,7 @@
 @property (nonatomic,strong)HeadLineTableViewController *head ;
 @property (nonatomic,strong)PETableViewController *pe;
 @property(nonatomic,strong)MyTableViewController * mtvc;
-
+// 哈哈
 
 @end
 
@@ -87,7 +87,7 @@
             [self.BackView setContentOffset:CGPointMake(x, 0) animated:YES];
             break;
         }
-            case 3:
+        case 3:
         {
             CGFloat cjx = index * self.BackView.bounds.size.width;
             [self.BackView setContentOffset:CGPointMake(cjx, 0) animated:YES];
