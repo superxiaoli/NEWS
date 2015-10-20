@@ -46,8 +46,13 @@
     self.titleBar.delegate = self;
     [self.view addSubview:_titleBar];
     
-   
+
+    [self interfaceHandle];
     
+    
+}
+-(void)interfaceHandle
+{
     self.BackView = [[UIScrollView alloc]init];
     self.BackView.frame = CGRectMake(0, 44, kScreenWidth, kScreenHight);
     self.BackView.contentSize = CGSizeMake(kScreenWidth *5, kScreenHight);
@@ -55,7 +60,7 @@
     [self.view addSubview:_BackView];
     
     
-
+    
     self.head = [[HeadLineTableViewController alloc]init];
     self.head.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
     [self addChildViewController:_head];
@@ -65,7 +70,6 @@
     self.pe.view.frame = CGRectMake(CGRectGetMaxX(self.view.frame), 0, self.view.frame.size.width, self.view.frame.size.height);
     [self addChildViewController:_pe];
     [self.BackView addSubview:_pe.tableView];
-    
 }
 
 -(void)LGtitleBarView:(LGtitleBarView *)titleBarView didSelectedItem:(int)index
